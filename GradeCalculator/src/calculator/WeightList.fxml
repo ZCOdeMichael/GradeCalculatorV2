@@ -24,7 +24,7 @@
           <RowConstraints maxHeight="140.0" minHeight="10.0" prefHeight="127.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ListView fx:id="weightList" prefHeight="200.0" prefWidth="200.0">
+            <ListView fx:id="weightList" onMouseClicked="#on_Mouse_Clicked" prefHeight="200.0" prefWidth="200.0">
                <GridPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </GridPane.margin>
@@ -33,12 +33,17 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="0.0" prefWidth="275.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#on_Add" prefWidth="120.0" text="Add">
+                        <Button mnemonicParsing="false" onAction="#on_Add" prefWidth="80.0" text="Add">
                            <HBox.margin>
                               <Insets right="2.5" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#on_Remove" prefWidth="120.0" text="Remove">
+                        <Button disable="true" mnemonicParsing="false" onAction="#on_Remove" prefWidth="80.0" text="Remove">
+                           <HBox.margin>
+                              <Insets left="2.5" right="2.5" />
+                           </HBox.margin>
+                        </Button>
+                        <Button disable="true" mnemonicParsing="false" onAction="#on_Grades" prefWidth="80.0" text="Grades">
                            <HBox.margin>
                               <Insets left="2.5" />
                            </HBox.margin>
