@@ -2,17 +2,20 @@ package calculator;
 
 import java.util.ArrayList;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Weight {
 
     private double weight;
-    private ArrayList<Score> scoreList;
+    private ObservableList<Score> scoreList;
     
     public Weight(double weight) {
         this.weight = weight;
-        this.scoreList = new ArrayList<>();
+        this.scoreList = FXCollections.observableArrayList();
     }
     
-    public ArrayList<Score> getScores() { return scoreList; }
+    public ObservableList<Score> getScores() { return scoreList; }
     public double getWeight() { return weight; }
     public void setWeight(double weight) { this.weight = weight; }
     public double getTotalScore() {
@@ -40,6 +43,9 @@ public class Weight {
         
         public double getTotal() { return total; }
         public double getScore() { return score; }
+        public String toString() {
+            return "Score " + score + " / " + total;
+        }
     }
     
     public String toString() {

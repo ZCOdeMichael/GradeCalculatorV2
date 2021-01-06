@@ -1,15 +1,20 @@
 package calculator;
 
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class MainController {
 
@@ -33,12 +38,27 @@ public class MainController {
     
     @FXML
     void on_Add_Scores(ActionEvent event) {
-
+        if(weightList.getSelectionModel().getSelectedIndex() != -1) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Scores.fxml"));
+            Stage stage = new Stage();
+            try {
+                stage.setScene(new Scene(loader.load()));
+                stage.setTitle(weightList.getItems().get(weightList.getSelectionModel().getSelectedIndex()).getWeight() + "% - Weight");
+                
+                ScoresController controller = loader.getController();
+                controller.init(weightList.getItems().get(weightList.getSelectionModel().getSelectedIndex()), this);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        
     }
 
     @FXML
     void on_Edit(ActionEvent event) {
-        
+        editScores();
+            
     }
 
     @FXML
@@ -79,7 +99,29 @@ public class MainController {
     }
     
     private void editScores() {
-        
+        try {
+            if(weightList.getSelectionModel().getSelectedIndex() != -1) {
+                double remain = Double.parseDouble(perc_Remaining.getText()) + 
+                        (weightList.getItems().get(weightList.getSelectionModel().getSelectedIndex()).getWeight() 
+                                - Double.parseDouble(weight_Input.getText()));
+                
+                if(Double.parseDouble(weight_Input.getText()) < 0 
+                    || remain < 0) {
+                    alertGen("Invalid Number of Weights or Invalid Input", "Too many weights entered");
+                    return;
+                }
+                
+                weightList.getItems().get(weightList.getSelectionModel().getSelectedIndex()).setWeight(Double.parseDouble(weight_Input.getText()));
+                perc_Remaining.setText(String.valueOf(remain));
+                updateResult();
+                updateList();
+                weightList.getSelectionModel().clearSelection();
+                disableButtons(true);
+                weight_Input.clear();
+            }
+        } catch(Exception e) {
+            alertGen("Invalid Input", "Please enter a valid weight");
+        }
     }
     
     private void removeWeight() {
@@ -107,7 +149,7 @@ public class MainController {
         try {
             if(Double.parseDouble(perc_Remaining.getText()) == 0 ||
                     (Double.parseDouble(perc_Remaining.getText()) - Double.parseDouble(weight)) < 0) {
-                alertGen("Invalid Number of Weights", "Too many weights entered");
+                alertGen("Invalid Number of Weights or Invalid Input", "Too many weights entered");
                 return;
             }
             
@@ -146,6 +188,9 @@ public class MainController {
         alert.showAndWait();
     }
     
+    public void updateList() {
+        weightList.refresh();
+    }
     
 
 }
