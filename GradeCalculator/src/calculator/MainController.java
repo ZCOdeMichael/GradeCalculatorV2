@@ -38,20 +38,7 @@ public class MainController {
     
     @FXML
     void on_Add_Scores(ActionEvent event) {
-        if(weightList.getSelectionModel().getSelectedIndex() != -1) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Scores.fxml"));
-            Stage stage = new Stage();
-            try {
-                stage.setScene(new Scene(loader.load()));
-                stage.setTitle(weightList.getItems().get(weightList.getSelectionModel().getSelectedIndex()).getWeight() + "% - Weight");
-                
-                ScoresController controller = loader.getController();
-                controller.init(weightList.getItems().get(weightList.getSelectionModel().getSelectedIndex()), this);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        addScores();
         
     }
 
@@ -72,12 +59,12 @@ public class MainController {
             removeWeight();
             return;
         }
-        /*
-        Double click detection
         if(event.getClickCount() == 2) {
-            System.out.println("We got'em BOI!!! " + weightList.getSelectionModel().getSelectedIndex());
+            if(weightList.getSelectionModel().getSelectedIndex() != -1) {
+                addScores();
+            }
         }
-        */
+       
         if(weightList.getSelectionModel().getSelectedIndex() != -1) {
             disableButtons(false);
             weight_Input.setText(String.valueOf(weightList.getItems().get(weightList.getSelectionModel().getSelectedIndex()).getWeight()));
@@ -95,7 +82,24 @@ public class MainController {
 
     @FXML
     void on_Save(ActionEvent event) {
-
+        
+    }
+    
+    private void addScores() {
+        if(weightList.getSelectionModel().getSelectedIndex() != -1) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Scores.fxml"));
+            Stage stage = new Stage();
+            try {
+                stage.setScene(new Scene(loader.load()));
+                stage.setTitle(weightList.getItems().get(weightList.getSelectionModel().getSelectedIndex()).getWeight() + "% - Weight");
+                
+                ScoresController controller = loader.getController();
+                controller.init(weightList.getItems().get(weightList.getSelectionModel().getSelectedIndex()), this);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
     
     private void editScores() {
@@ -114,7 +118,7 @@ public class MainController {
                 weightList.getItems().get(weightList.getSelectionModel().getSelectedIndex()).setWeight(Double.parseDouble(weight_Input.getText()));
                 perc_Remaining.setText(String.valueOf(remain));
                 updateResult();
-                updateList();
+                weightList.refresh();
                 weightList.getSelectionModel().clearSelection();
                 disableButtons(true);
                 weight_Input.clear();
@@ -188,9 +192,11 @@ public class MainController {
         alert.showAndWait();
     }
     
-    public void updateList() {
+    public void update() {
+        updateResult();
         weightList.refresh();
     }
+    
     
 
 }

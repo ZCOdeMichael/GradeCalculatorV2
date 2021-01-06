@@ -1,11 +1,14 @@
 package calculator;
 
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class ScoresController {
 
@@ -28,9 +31,11 @@ public class ScoresController {
         scoreList.getItems().add(curr);
         selectedWeight.getScores().add(curr);
         
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("WeightList.fxml"));
-        MainController controller = loader.getController();
-        controller.updateList();
+        
+        //MainController controller = main_Controller;
+        
+        main_Controller.update();
+        
     }
 
     @FXML
@@ -43,7 +48,7 @@ public class ScoresController {
 
     }
     
-    public void init(Weight selectedWeight, MainController cumain_Controllerrr) {
+    public void init(Weight selectedWeight, MainController main_Controller) {
         this.selectedWeight = selectedWeight;
         this.main_Controller = main_Controller;
         scoreList.getItems().addAll(selectedWeight.getScores());
