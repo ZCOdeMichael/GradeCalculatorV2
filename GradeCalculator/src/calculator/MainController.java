@@ -76,7 +76,7 @@ public class MainController {
     @FXML
     void on_Remove(ActionEvent event) {
         removeWeight();
-         
+        
     }
     
 
