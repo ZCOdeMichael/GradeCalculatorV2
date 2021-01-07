@@ -12,8 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-
-<BorderPane prefHeight="507.0" prefWidth="275.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="calculator.ScoresController">
+<BorderPane prefHeight="507.0" prefWidth="275.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calculator.ScoresController">
    <center>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -24,7 +23,7 @@
           <RowConstraints maxHeight="140.0" minHeight="10.0" prefHeight="127.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ListView fx:id="scoreList" prefHeight="200.0" prefWidth="200.0">
+            <ListView fx:id="scoreList" onMouseClicked="#on_Mouse_Click" prefHeight="200.0" prefWidth="200.0">
                <GridPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </GridPane.margin>
@@ -38,12 +37,12 @@
                               <Insets right="2.5" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#on_Remove" prefWidth="80.0" text="Remove">
+                        <Button fx:id="remove" disable="true" mnemonicParsing="false" onAction="#on_Remove" prefWidth="80.0" text="Remove">
                            <HBox.margin>
                               <Insets left="2.5" right="2.5" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#on_Edit" prefWidth="80.0" text="Edit">
+                        <Button fx:id="edit" disable="true" mnemonicParsing="false" onAction="#on_Edit" prefWidth="80.0" text="Edit">
                            <HBox.margin>
                               <Insets left="2.5" />
                            </HBox.margin>

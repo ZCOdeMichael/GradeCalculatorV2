@@ -82,7 +82,7 @@ public class MainController {
 
     @FXML
     void on_Save(ActionEvent event) {
-        
+        // WIP
     }
     
     private void addScores() {
@@ -111,7 +111,7 @@ public class MainController {
                 
                 if(Double.parseDouble(weight_Input.getText()) < 0 
                     || remain < 0) {
-                    alertGen("Invalid Number of Weights or Invalid Input", "Too many weights entered");
+                    Utility.alertGen("Invalid Number of Weights or Invalid Input", "Too many weights entered");
                     return;
                 }
                 
@@ -124,13 +124,13 @@ public class MainController {
                 weight_Input.clear();
             }
         } catch(Exception e) {
-            alertGen("Invalid Input", "Please enter a valid weight");
+            Utility.alertGen("Invalid Input", "Please enter a valid weight");
         }
     }
     
     private void removeWeight() {
         if(weightList.getSelectionModel().getSelectedIndex() == -1) {
-            alertGen("Invalid Selection", "Please select a valid item");
+            Utility.alertGen("Invalid Selection", "Please select a valid item");
             return;
         }
         perc_Remaining.setText(String.valueOf(Double.parseDouble(perc_Remaining.getText()) 
@@ -153,12 +153,12 @@ public class MainController {
         try {
             if(Double.parseDouble(perc_Remaining.getText()) == 0 ||
                     (Double.parseDouble(perc_Remaining.getText()) - Double.parseDouble(weight)) < 0) {
-                alertGen("Invalid Number of Weights or Invalid Input", "Too many weights entered");
+                Utility.alertGen("Invalid Number of Weights or Invalid Input", "Too many weights entered");
                 return;
             }
             
             if(Double.parseDouble(weight) < 0) {
-                alertGen("Invalid Input", "Please enter a valid weight");
+                Utility.alertGen("Invalid Input", "Please enter a valid weight");
                 return;
             }
             
@@ -169,9 +169,9 @@ public class MainController {
             updateResult();
             
         } catch(NumberFormatException e) {
-            alertGen("Number Format Error", "Please enter a valid weight");
+            Utility.alertGen("Number Format Error", "Please enter a valid weight");
         } catch(Exception e) {
-            alertGen("Number Format Error", "Please enter a valid weight");
+            Utility.alertGen("Number Format Error", "Please enter a valid weight");
         }
     }
     
@@ -184,13 +184,6 @@ public class MainController {
         result.setText(score + " %");
     }
     
-    private void alertGen(String header, String content) {
-        Alert alert = new Alert(AlertType.WARNING);
-        alert.setTitle("Warning!!");
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
     
     public void update() {
         updateResult();

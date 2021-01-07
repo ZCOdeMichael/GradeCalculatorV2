@@ -13,5 +13,11 @@ public class Utility {
         return numberFormat.format(num);
     }
     
-    
+    public static void alertGen(String header, String content) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Warning!!");
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

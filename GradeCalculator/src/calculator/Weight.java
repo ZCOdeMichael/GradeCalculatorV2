@@ -36,13 +36,15 @@ public class Weight {
         private double total;
         private double score;
         
-        public Score(double total, double score) {
+        public Score(double score, double total) {
             this.total = total;
             this.score = score;
         }
         
         public double getTotal() { return total; }
         public double getScore() { return score; }
+        public void setTotal(double total) { this.total = total; }
+        public void setScore(double score) { this.score = score; }
         public String toString() {
             return "Score " + score + " / " + total;
         }
