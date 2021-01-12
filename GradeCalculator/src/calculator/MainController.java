@@ -1,5 +1,9 @@
 package calculator;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
@@ -14,6 +18,8 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class MainController {
@@ -82,7 +88,85 @@ public class MainController {
 
     @FXML
     void on_Save(ActionEvent event) {
-        // WIP
+        if(weightList.getItems().size() == 0) {
+            Utility.alertGen("There is no data to save", "Please add more data");
+            return;
+        }
+        
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Open Target File to Save Data");
+        chooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"),
+                new ExtensionFilter("All Files", "*.*"));
+        Stage stage = new Stage();
+        File targetFile = chooser.showSaveDialog(stage);
+        FileOutputStream output = null;
+        
+        if(targetFile != null) {
+            try {
+                output = new FileOutputStream(targetFile);
+                
+                for(Weight ptr : weightList.getItems()) {
+                    Utility.addToOut(output, "%" + ptr.getWeight());
+                    for(Weight.Score pt : ptr.getScores()) {
+                        Utility.addToOut(output, pt.getScore() + "/" + pt.getTotal());
+                    }
+                }
+                
+                
+            } catch(FileNotFoundException e) {
+                Utility.alertGen("Unable to find file or file not selected", "Please select a file");
+            } catch(IOException e) {
+                Utility.alertGen("Unable to access the file", "Please select a file");
+            } finally {
+                if(output != null) {
+                    try {
+                        output.close();
+                    } catch(IOException e) {
+                    }
+                }
+            }
+            
+            
+        }else {
+            Utility.alertGen("File not selected", "Please select a file");
+        }
+    
+    }
+    
+
+    @FXML
+    void on_Load(ActionEvent event) {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Open Source File for the Import");
+        chooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"),
+                new ExtensionFilter("All Files", "*.*"));
+        Stage stage = new Stage();
+        File sourceFile = chooser.showOpenDialog(stage); //get the reference of the source file
+        if(sourceFile == null) {
+            Utility.alertGen("File not selected", "Please select a file");
+            return;
+        }else {
+            if(sourceFile.length() == 0) {
+                Utility.alertGen("The choosen file is empty", "Please select a different file");
+                return;
+            }
+            
+            FileInputStream input = null;
+            try {
+                input = new FileInputStream(sourceFile);
+                
+            }catch (FileNotFoundException e) {
+                
+            }
+        
+        }
+        
+    }
+    
+    @FXML
+    void on_Clear(ActionEvent event) {
+        weightList.getItems().clear();
+        update();
     }
     
     private void addScores() {

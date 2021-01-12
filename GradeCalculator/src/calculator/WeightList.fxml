@@ -12,8 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-
-<BorderPane prefHeight="507.0" prefWidth="275.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="calculator.MainController">
+<BorderPane prefHeight="507.0" prefWidth="275.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calculator.MainController">
    <center>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -94,6 +93,16 @@
                         <Button fx:id="save" mnemonicParsing="false" onAction="#on_Save" text="Save">
                            <HBox.margin>
                               <Insets left="15.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#on_Load" text="Load">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#on_Clear" text="Clear">
+                           <HBox.margin>
+                              <Insets left="5.0" />
                            </HBox.margin>
                         </Button>
                         <Button fx:id="addScore" disable="true" mnemonicParsing="false" onAction="#on_Add_Scores" text="Add Scores">

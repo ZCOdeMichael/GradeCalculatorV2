@@ -1,5 +1,7 @@
 package calculator;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 import javafx.scene.control.Alert;
@@ -19,5 +21,12 @@ public class Utility {
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+    
+    public static void addToOut(FileOutputStream fd, String line) throws IOException {
+        for(int i = 0; i < line.length(); i++) {
+            fd.write((byte) line.charAt(i));
+        }
+        fd.write((byte) '\n');
     }
 }
