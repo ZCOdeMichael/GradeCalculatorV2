@@ -154,9 +154,50 @@ public class MainController {
             FileInputStream input = null;
             try {
                 input = new FileInputStream(sourceFile);
+                String weight = "";
+                int track;
+                while((track = input.read()) != -1) {
+                    if(((char) track) == '%') {
+                        System.out.println(weight);
+                        if(!weight.equals("")) {
+                            try {
+                                loadWeight(weight);
+                            } catch (Exception e) {
+                                Utility.alertGen("File format error", "Selected file is not formated correctly");
+                            }
+                            weight = "";
+                        }
+                    }else {
+                        weight = weight + ((char) track);
+                    }
+                }
                 
-            }catch (FileNotFoundException e) {
-                
+                if(!weight.equals("")) {
+                    
+                    try {
+                        System.out.println(weight);
+                        loadWeight(weight);
+                    } catch (Exception e) {
+                        weightList.getItems().clear();
+                        try {
+                            update();
+                        } catch (Exception e1) {
+                        }
+                        Utility.alertGen("File format error", "Selected file is not formated correctly");
+                        
+                    }
+                }
+            } catch (FileNotFoundException e) {
+                Utility.alertGen("File was not found", "Please select a file");
+            } catch(IOException e) {
+                Utility.alertGen("File error", "Please select a file");
+            } finally {
+                if(input != null) {
+                    try {
+                        input.close();
+                    } catch(IOException e) {
+                    }
+                }
             }
         
         }
@@ -164,9 +205,42 @@ public class MainController {
     }
     
     @FXML
-    void on_Clear(ActionEvent event) {
+    void on_Clear(ActionEvent event) throws Exception {
         weightList.getItems().clear();
+        weight_Input.setText("");
         update();
+    }
+    
+    private void loadWeight(String weight) throws Exception {
+        String ln = "";
+        int i = 0;
+        Weight temp;
+        for(; i < weight.length(); i++) {
+            if(weight.charAt(i) == '\n' || (i+1) == weight.length()) {
+                temp = new Weight(Double.parseDouble(ln));
+                
+                ln = "";
+                i++;
+                for(; i < weight.length(); i++) {
+                    if(weight.charAt(i) == '\n') {
+                        double score = Double.parseDouble(ln.substring(0, ln.indexOf('/')));
+                        double total = Double.parseDouble(ln.substring(ln.indexOf('/')+1));
+                        Weight.Score tempS = temp.new Score(score, total);
+                        temp.getScores().add(tempS);
+                        ln = "";
+                    }else {
+                        ln = ln + weight.charAt(i);
+                    }
+                }
+                System.out.println(temp);
+                weightList.getItems().add(temp);
+                update();
+                break;
+            }
+            ln = ln + weight.charAt(i);
+        }
+        
+        
     }
     
     private void addScores() {
@@ -259,6 +333,16 @@ public class MainController {
         }
     }
     
+    private void updateRemainWeight() throws Exception{
+        double totalW = 0;
+        for(Weight ptr : weightList.getItems()) {
+            totalW += ptr.getWeight();
+        }
+        if((100 - totalW) < 0) {
+            throw new Exception();
+        }
+        perc_Remaining.setText(String.valueOf(100 - totalW));
+    }
     
     private void updateResult() {
         double score = 0;
@@ -269,7 +353,8 @@ public class MainController {
     }
     
     
-    public void update() {
+    public void update() throws Exception{
+        updateRemainWeight();
         updateResult();
         weightList.refresh();
     }

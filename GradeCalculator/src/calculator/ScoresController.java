@@ -79,7 +79,7 @@ public class ScoresController {
     }
 
     @FXML
-    void on_Remove(ActionEvent event) {
+    void on_Remove(ActionEvent event) throws Exception {
         if(scoreList.getSelectionModel().getSelectedIndex() != -1) {
             int index = scoreList.getSelectionModel().getSelectedIndex();
             
@@ -101,7 +101,7 @@ public class ScoresController {
         currScore.setText(String.valueOf(selectedWeight.getTotalScore()*100) + " %");
     }
     
-    private void cleanUp() {
+    private void cleanUp() throws Exception {
         main_Controller.update();
         updateScore();
         scoreInput.clear();
